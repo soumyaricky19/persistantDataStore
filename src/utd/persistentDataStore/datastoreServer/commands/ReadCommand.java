@@ -5,6 +5,7 @@ import java.lang.StringBuilder;
 
 import utd.persistentDataStore.utils.FileUtil;
 import utd.persistentDataStore.utils.ServerException;
+import utd.persistentDataStore.utils.StreamUtil;
 
 public class ReadCommand extends ServerCommand
 {
@@ -28,12 +29,9 @@ public class ReadCommand extends ServerCommand
 		if (msg != null)
 		{
 			String okMsg = "OK";
-			String new_line="\n";
-			outputStream.write(okMsg.getBytes());
-			outputStream.write(Integer.valueOf(new_line));
-			outputStream.write(msg.length);
-			outputStream.write(Integer.valueOf(new_line));
-			outputStream.write(msg);
+			StreamUtil.writeLine(okMsg.getBytes()+"\n",outputStream);
+			StreamUtil.writeLine(msg.length+"\n",outputStream);
+			StreamUtil.writeData(msg,outputStream);
 			outputStream.flush();
 		}
 	}
